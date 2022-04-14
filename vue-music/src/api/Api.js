@@ -158,7 +158,59 @@ getAlbumsSong(id){
 // export const reqCommentAlbum = (id,limit=20,offset=0)=>request({url:`/comment/album?id=${id}&limit=${limit}&offset=${offset}`,method:'GET'});
 getAlbumSongComment(id,limit,offset){
     return axios.get(`api/comment/album?id=${id}&limit=${limit}&offset=${offset}`)
+},
+
+
+
+// //获取二维码key  /login/qr/key
+// export const reqLoginQrKey = ()=>request({url:'/login/qr/key',method:'GET'});
+
+getCodeKey(){
+    return axios.get(`api/login/qr/key`)
+},
+
+
+// //二维码生成接口 /login/qr/create/login/qr/create?key=
+// export const reqLoginQrCreate = (key)=>request({url:`/login/qr/create?key=${key}`,method:"POST"});
+
+getCodeCreate(key){
+    return axios.post(`api/login/qr/create?key=${key}`)
+},
+
+// //二维码检测扫描状态接口 /login/qr/check?key=
+// export const reqLoginQrCheck = (key)=>request({url:`/login/qr/check?key=${key}`,method:'POST'});
+
+getCodeCheck(key){
+    return axios.post(`api/login/qr/check?key=${key}`)
+},
+
+//发送验证码给手机 /captcha/sent?phone=
+//  reqSent = (phone)=>request({url:`/captcha/sent?phone=${phone}`,method:'POST'});
+
+getSentCode(phone){
+    return axios.post(`api/captcha/sent?phone=${phone}`)
+},
+
+
+// //校验验证码 /captcha/verify?phone=?captcha=?
+//  reqVerify = (phone,captcha)=>request({url:`/captcha/verify?phone=${phone}&captcha=${captcha}`,method:'GET'});
+getPhoneCheck(phone,captcha){
+    return axios.get(`api/captcha/verify?phone=${phone}&captcha=${captcha}`)
+},
+
+// //手机登录（验证码）/login/cellphone?phone=&captcha=
+// = (phone,num)=> request({url:`/login/cellphone?phone=${phone}&captcha=${num}`,method:'POST'});
+getPhoneLogin(phone,num){
+    return axios.post(`api/login/cellphone?phone=${phone}&captcha=${num}`)
 }
+
+
+
+
+
+
+
+
 
 
 }

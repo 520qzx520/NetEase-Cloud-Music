@@ -53,8 +53,15 @@
                     <div class="img"></div>
                     <div class="right">
                       <h3 style="font-size: 16px">扫码登录</h3>
-                      <img src="./img/user.jpg" />
+                      <img :src="qrurl" />
                       <a>使用 网易云音乐APP扫码登录</a>
+                      <div
+                        class="codePass"
+                        v-show="codepass"
+                        @click="codeRefreshBtn"
+                      >
+                        二维码已过期，点击刷新
+                      </div>
                     </div>
                   </div>
                   <div class="morelogin" @click="moreLoginBtn">
@@ -98,7 +105,7 @@
                   </div>
                   <div class="bottom">
                     <div class="agree">
-                      <input type="checkbox" id="inputbox" />
+                      <input type="checkbox" id="inputbox" v-model="inputref" />
                       <label for="inputbox">同意</label>
                       <a>《服务条款》《隐私策略》《儿童隐私政策》</a>
                     </div>
@@ -115,6 +122,7 @@
                       <input
                         type="text"
                         placeholder="请输入手机号"
+                        v-model="phone"
                         class="ph"
                       />
                       <div v-show="passInput">
@@ -122,8 +130,9 @@
                           type="text"
                           placeholder="请输入验证码"
                           class="cod"
+                          v-model="code"
                         />
-                        <span>获取验证码</span>
+                        <span @click="getCodeBtn">获取验证码</span>
                         <div class="passlogin">
                           <a @click="passInputBtn">密码登录</a>
                           <a>自动登录</a>
@@ -136,6 +145,7 @@
                           placeholder="请输入密码"
                           class="cod"
                           style="width: 100%"
+                          v-model="password"
                         />
 
                         <div class="passlogin">
@@ -144,7 +154,7 @@
                         </div>
                       </div>
 
-                      <a class="loginbtn">登录</a>
+                      <a class="loginbtn" @click="GoLoginbtn">登录</a>
                     </div>
                   </div>
                   <div class="alla">
@@ -162,6 +172,9 @@
 </template>
 
 <script>
+  import api from '../../api/Api';
+  //生成二维码
+  import QRCode from 'qrcode';
   export default {
     data() {
       return {
@@ -170,26 +183,142 @@
         LoginTF: false,
         phoneLoginFt: false,
         passInput: true,
+        codepass: false,
+        qrurl: '',
+        timer: 0,
+        time: 0,
+        password: '',
+        phone: '',
+        code: '',
+        phoneref: false,
+        coderef: false,
+        inputref: false,
       };
     },
+
+    mounted() {},
     methods: {
+      //获取二维码key
+      async getCodeKey() {
+        let res = await api.getCodeKey();
+        let key = res.data.data.unikey;
+        // console.log(res.data.data.unikey,0)
+        await this.getCodeCreate(key);
+        // console.log(111)
+      },
+      //生成二维码接口
+      async getCodeCreate(key) {
+        let res = await api.getCodeCreate(key);
+        //利用插件 生成二维码图片
+        let url = await QRCode.toDataURL(res.data.data.qrurl);
+        this.qrurl = url;
+
+        this.getCodeCheck(key);
+      },
+
+      getCodeCheck(key) {
+        this.timer = setInterval(async () => {
+          let res = await api.getCodeCheck(key);
+          console.log(res.data);
+          if (res.data.code == 800) {
+            this.codepass = true;
+            console.log('二维码已过期');
+          } else if (res.data.code == 803) {
+            localStorage.setItem('COOKIE', res.data.cookie);
+            console.log('扫码成功', res.data);
+            clearInterval(this.timer);
+          } else {
+            console.log('等待扫码');
+          }
+        }, 5000);
+      },
+      //校验手机号
+      phoneRef() {
+        if (!this.phone) return alert('手机号不能为空');
+        let reg = /^1[3-9]\d{9}$/;
+        if (!reg.test(this.phone)) {
+          alert('请输入正确的手机号');
+        } else {
+          this.phoneref = true;
+          //验证码校验规则
+          this.codeRef();
+        }
+      },
+
+      codeRef() {
+        if (!this.code) return alert('验证码不能为空');
+        this.coderef = true;
+      },
+      //获取验证码按钮
+      getCodeBtn() {
+        //校验手机号
+        this.phoneRef();
+        //手机号正确就发送请求
+        if (this.phoneref) {
+          this.getSentCode();
+        }
+      },
+      //获取手机验证码请求
+      async getSentCode() {
+        let res = await api.getSentCode(this.phone);
+      },
+
+      //验证码校验
+      async getPhoneCheck(phone, captcha) {
+        let res = await api.getPhoneCheck(phone, captcha);
+        // console.log(res.data)
+        if (res.data.code !== 200) {
+          return alert('验证码错误');
+        } else {
+          let result = await api.getPhoneLogin(this.phone, this.code);
+          localStorage.setItem('COOKIE', result.data.cookie);
+          localStorage.setItem('USER', result.data.profile);
+          console.log(result.data);
+          alert('登录成功');
+        }
+      },
+      //登录按钮，验证验证码
+      GoLoginbtn() {
+        //手机校验规则
+        this.phoneRef();
+        if (this.phoneref && this.coderef) {
+          this.getPhoneCheck(this.phone, this.code);
+          console.log(111);
+        }
+      },
+
+      //二维码过期
+      codeRefreshBtn() {
+        //展示过期提示
+        this.codepass = false;
+        //刷新二维码
+        this.getCodeKey();
+      },
+
       //导航栏登录按钮
       LoginBtn() {
         this.LoginTF = true;
+        this.getCodeKey();
       },
       //关闭按钮
       Close() {
         this.LoginTF = false;
+        clearInterval(this.timer);
       },
       //登录首页的更多登录方式
       moreLoginBtn() {
         this.LoginIndex = !this.LoginIndex;
         this.everyLogin = !this.everyLogin;
+        clearInterval(this.timer);
       },
       //手机登录
       phoneLoginBtn() {
-        this.everyLogin = !this.everyLogin;
-        this.phoneLoginFt = !this.phoneLoginFt;
+        if (this.inputref) {
+          this.everyLogin = !this.everyLogin;
+          this.phoneLoginFt = !this.phoneLoginFt;
+        } else {
+          alert('请勾选同意按钮');
+        }
       },
 
       //其他登录方式
@@ -200,8 +329,12 @@
 
       //右下角二维码点击
       codeBtn() {
-        this.everyLogin = !this.everyLogin;
-        this.LoginIndex = !this.LoginIndex;
+        if (this.inputref) {
+          this.everyLogin = !this.everyLogin;
+          this.LoginIndex = !this.LoginIndex;
+        } else {
+          alert('请勾选同意按钮');
+        }
       },
       //密码登陆
       passInputBtn() {
@@ -289,7 +422,7 @@
           }
           .login {
             .login-box {
-              position: absolute;
+              position: fixed;
               height: 400px;
               width: 550px;
               top: 50%;
@@ -330,6 +463,7 @@
                     }
 
                     .right {
+                      position: relative;
                       display: flex;
                       flex-direction: column;
                       width: 300px;
@@ -343,6 +477,17 @@
                       }
                       a {
                         color: black;
+                      }
+
+                      .codePass {
+                        position: absolute;
+                        display: flex;
+                        align-items: center;
+                        top: 65px;
+                        left: 100px;
+                        width: 100px;
+                        height: 100px;
+                        background: rgba(252, 252, 252, 0.8);
                       }
                     }
                   }
@@ -381,7 +526,7 @@
                           text-align: center;
                         }
                         .phonelogin {
-                          background: cyan;
+                          background: #0085ff;
                           margin: 20px 0;
                         }
                         .phoneresgin {

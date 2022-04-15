@@ -26,7 +26,16 @@ const router = createRouter({
 				{
 					name: 'mymusic',
 					path: 'mymusic',
-					component: () => import('../views/MyMusic/MyMusic.vue')
+					component: () => import('../views/MyMusic/MyMusic.vue'),
+					redirect: { name: 'MyMusicPlist' },
+					children:[
+						{
+							name:'MyMusicPlist',
+							path:'mymusicplist',
+							component:() => import('../views/MyMusic/RightPlayList/RightPlayList.vue')
+						}
+					]
+
 				},
 				// 我的关注
 				{

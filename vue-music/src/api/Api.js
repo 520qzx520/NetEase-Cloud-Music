@@ -202,16 +202,41 @@ getPhoneCheck(phone,captcha){
 // = (phone,num)=> request({url:`/login/cellphone?phone=${phone}&captcha=${num}`,method:'POST'});
 getPhoneLogin(phone,num){
     return axios.post(`api/login/cellphone?phone=${phone}&captcha=${num}`)
+},
+
+//手机登录（密码） /login/cellphone?phone=&password=
+// request({url:`/login/cellphone?phone=${phone}&password=${num}`,method:'POST'});
+getPhonePasswordLogin(phone,num){
+    return axios.post(`api/login/cellphone?phone=${phone}&password=${num}`)
+},
+//用户账号信息
+getAccout(cookie){
+    return axios.post(`api/user/account?cookie=${cookie}`)
+},
+
+
+// 获取用户歌单 /user/playlist?uid=
+// export const reqUserPlayList = (uid,cookie)=>request({url:`/user/playlist?uid=${uid}&cookie=${cookie}`});
+
+getUserPlayList(uid,cookie){
+    return axios.get(`api/user/playlist?uid=${uid}&cookie=${cookie}`)
+},
+// 获取登录后用户歌单详情 /playlist/detail
+// export const reqPlayListDetail =(id,cookie)=>request({url:`/playlist/detail?id=${id}&cookie=${cookie}`,method:'GET'});
+
+getUsePlayListDetail(id,cookie){
+    return axios.get(`api/playlist/detail?id=${id}&cookie=${cookie}`)
+},
+
+getFriendEvents(pagesize,cookie,lasttime){
+    return axios.get(`api/event?pagesize=${pagesize}&cookie=${cookie}&lasttime=${lasttime}`)
+},
+
+// 获取用户详情 /user/detail
+// export const reqUserDetail = (uid,cookie) => request({url:`/user/detail?uid=${uid}&cookie=${cookie}`,method:'GET'});
+getUSerDetail(uid,cookie){
+    return axios.get(`api/user/detail?uid=${uid}&cookie=${cookie}`)
 }
-
-
-
-
-
-
-
-
-
 
 }
 

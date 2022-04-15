@@ -24,7 +24,7 @@
         </ul>
       </div>
       <div class="right-list">
-        <ul>
+        <ul class="UL">
           <!-- <li> <input type="text" style="width: 158px" placeholder="音乐/专辑/歌手" /></li>  -->
           <router-link to="/search" custom v-slot="{ navigate }">
             <div @click="navigate" @keypress.enter="navigate" role="link">
@@ -40,7 +40,44 @@
           </router-link>
           <li>创作者中心</li>
           <li class="login">
-            <a @click="LoginBtn">登录</a>
+            <div class="user-contain">
+              <a @click="LoginBtn" v-show="userShow">登录</a>
+              <img :src="userImg" class="user-img" v-show="!userShow" />
+
+              <div class="user-list" v-show="!userShow">
+                <ul>
+                  <li>
+                    <i class="myhome"></i>
+                    <a>我的主页</a>
+                  </li>
+                  <li>
+                    <i class="mymeaasge"></i>
+                    <a>我的消息</a>
+                  </li>
+                  <li>
+                    <i class="mydj"></i>
+                    <a>我的等级</a>
+                  </li>
+                  <li>
+                    <i class="myvip"></i>
+                    <a>VIP等级</a>
+                  </li>
+                  <li>
+                    <i class="mysetting"></i>
+                    <a>个人设置</a>
+                  </li>
+                  <li>
+                    <i class="smyz"></i>
+                    <a>实名验证</a>
+                  </li>
+                  <li>
+                    <i class="exit"></i>
+                    <a>退出</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             <div class="login-box" v-show="LoginTF">
               <div class="title">
                 <a>登录</a>
@@ -132,7 +169,7 @@
                           class="cod"
                           v-model="code"
                         />
-                        <span @click="getCodeBtn">获取验证码</span>
+                        <button @click="getCodeBtn" :disabled="clickFT">{{ goCodeText }}</button>
                         <div class="passlogin">
                           <a @click="passInputBtn">密码登录</a>
                           <a>自动登录</a>
@@ -141,7 +178,7 @@
 
                       <div v-show="!passInput">
                         <input
-                          type="text"
+                          type="password"
                           placeholder="请输入密码"
                           class="cod"
                           style="width: 100%"
@@ -178,6 +215,7 @@
   export default {
     data() {
       return {
+        goCodeText: '获取验证码',
         LoginIndex: true,
         everyLogin: false,
         LoginTF: false,
@@ -193,10 +231,17 @@
         phoneref: false,
         coderef: false,
         inputref: false,
+        userImg: '',
+        name: '',
+        userShow: true,
+        clickFT:false,
       };
     },
 
-    mounted() {},
+    mounted() {
+      // profile
+      this.userData();
+    },
     methods: {
       //获取二维码key
       async getCodeKey() {
@@ -219,16 +264,15 @@
       getCodeCheck(key) {
         this.timer = setInterval(async () => {
           let res = await api.getCodeCheck(key);
-          console.log(res.data);
           if (res.data.code == 800) {
             this.codepass = true;
-            console.log('二维码已过期');
           } else if (res.data.code == 803) {
             localStorage.setItem('COOKIE', res.data.cookie);
-            console.log('扫码成功', res.data);
+
+            this.LoginTF = false;
             clearInterval(this.timer);
+            this.userData();
           } else {
-            console.log('等待扫码');
           }
         }, 5000);
       },
@@ -241,21 +285,50 @@
         } else {
           this.phoneref = true;
           //验证码校验规则
-          this.codeRef();
+          // if (this.passInput) {
+          //   this.codeRef();
+          // } else {
+          //   this.passwordRef();
+          // }
         }
       },
-
+      //验证码校验规则
       codeRef() {
         if (!this.code) return alert('验证码不能为空');
         this.coderef = true;
       },
+      //密码校验规则
+      passwordRef() {
+        if (!this.password) return alert('密码不能为空');
+        // this.coderef = true;
+      },
       //获取验证码按钮
-      getCodeBtn() {
+      getCodeBtn() { 
+      
+      
         //校验手机号
         this.phoneRef();
         //手机号正确就发送请求
-        if (this.phoneref) {
+        if (this.phoneref) { 
+           //禁用按钮
+          this.clickFT = true
+          //发送验证码
           this.getSentCode();
+          this.goCodeText = 60;
+          let time = setInterval(() => {
+            if(this.goCodeText==0){
+             
+              this.goCodeText = '重新发送'
+              this.clickFT = false 
+              clearInterval(time)
+            }else{
+              this.goCodeText--
+             
+            }
+          }, 1000);
+
+            // clearInterval(time)
+          
         }
       },
       //获取手机验证码请求
@@ -272,19 +345,51 @@
         } else {
           let result = await api.getPhoneLogin(this.phone, this.code);
           localStorage.setItem('COOKIE', result.data.cookie);
-          localStorage.setItem('USER', result.data.profile);
-          console.log(result.data);
-          alert('登录成功');
+          localStorage.setItem('USER', JSON.stringify(result.data.profile));
+
+          this.LoginTF = false;
+          this.userData();
         }
       },
+      //获取账号信息
+      // async  getAccout(){
+      //   let res = await api.getAccout(localStorage.getItem('COOKIE'))
+      //   this.userImg = res.data.profile.avatarUrl
+      //   this.name = res.data.profile.nickname
+      //   console.log(res.data)
+
+      //   },
       //登录按钮，验证验证码
       GoLoginbtn() {
         //手机校验规则
         this.phoneRef();
-        if (this.phoneref && this.coderef) {
-          this.getPhoneCheck(this.phone, this.code);
-          console.log(111);
+
+        if (this.passInput) {
+          if (this.phoneref) {
+            this.codeRef();
+          }
+        } else {
+          this.passwordRef();
         }
+        //验证码登录
+        if (this.passInput) {
+          if (this.phoneref && this.coderef) {
+            this.getPhoneCheck(this.phone, this.code);
+            console.log(111);
+          }
+        } else {
+          //密码登录
+          this.getPhonePasswordLogin();
+        }
+      },
+      //手机密码登录
+      async getPhonePasswordLogin() {
+        let res = await api.getPhonePasswordLogin(this.phone, this.password);
+        localStorage.setItem('COOKIE', res.data.cookie);
+        localStorage.setItem('USER', JSON.stringify(res.data.profile));
+        //  this.getAccout()
+        this.LoginTF = false;
+        this.userData();
       },
 
       //二维码过期
@@ -339,6 +444,17 @@
       //密码登陆
       passInputBtn() {
         this.passInput = !this.passInput;
+      },
+
+      userData() {
+        if (localStorage.getItem('USER')) {
+          this.userShow = !this.userShow;
+          let data = JSON.parse(localStorage.getItem('USER'));
+          this.name = data.nickname;
+          this.userImg = data.avatarUrl;
+          // console.log(data)
+          // console.log(localStorage.getItem('COOKIE'))
+        }
       },
     },
   };
@@ -402,14 +518,15 @@
       }
 
       .right-list {
+        position: relative;
         height: 100%;
-        ul {
+        .UL {
           height: 100%;
           display: flex;
           align-items: center;
           li {
             font-size: 12px;
-            margin: 0 20px;
+            margin: 0 15px;
             .input {
               box-sizing: border-box;
               height: 30px;
@@ -421,6 +538,75 @@
             }
           }
           .login {
+            .username {
+              span {
+                position: absolute;
+                right: -20px;
+                top: 26px;
+              }
+            }
+            .user-contain {
+              &:hover {
+                .user-list {
+                  display: block;
+                }
+              }
+              .user-img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+              }
+              .user-list {
+                position: absolute;
+                width: 160px;
+                height: 236px;
+                top: 55px;
+                right: -52px;
+                background: rgb(22, 22, 22);
+                z-index: 9999999;
+                display: none;
+                ul {
+                  height: 250px;
+
+                  li {
+                    display: flex;
+                    margin-left: 20px;
+                    padding: 8px 0;
+                    i {
+                      display: inline-block;
+                      margin-right: 5px;
+                      width: 18px;
+                      height: 18px;
+                      background: url(./img/toplist.png) no-repeat 0 9999px;
+                    }
+
+                    .myhome {
+                      background-position: 0 -80px;
+                    }
+                    .mymeaasge {
+                      background-position: -20px -120px;
+                    }
+                    .mydj {
+                      background-position: 0 -100px;
+                    }
+                  }
+                  .myvip {
+                    background-position: 0 -221px;
+                  }
+                  .mysetting {
+                    background-position: 0 -140px;
+                  }
+
+                  .smyz {
+                    background-position: -20px -142px;
+                  }
+                  .exit {
+                    background-position: 0 -200px;
+                  }
+                }
+              }
+            }
+
             .login-box {
               position: fixed;
               height: 400px;
@@ -640,9 +826,9 @@
                         width: 66%;
                         margin-right: 20px;
                       }
-                      span {
+                      button {
                         border: 1px solid #ddd;
-                        padding: 11px 10px;
+                        padding: 10px 6px;
                       }
 
                       .passlogin {

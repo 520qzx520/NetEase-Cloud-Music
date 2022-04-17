@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <div class="mygz">
+    <div class="mygz" v-show="!containImg">
       <div class="my-flex">
         <div class="my-left">
           <div class="title">
@@ -62,21 +62,21 @@
         <div class="my-right">
           <div class="right-contain">
             <div class="img-p">
-             <a> <img :src="avatarUrl" /></a>
-              <p>{{nickname}}</p>
+              <a><img :src="avatarUrl" /></a>
+              <p>{{ nickname }}</p>
             </div>
             <ul class="right-user-list">
-              <li> <span>{{eventCount}}</span>
+              <li>
+                <span>{{ eventCount }}</span>
                 <a>动态</a>
-               
               </li>
-              <li class="li2">   <span>{{follows}}</span>
+              <li class="li2">
+                <span>{{ follows }}</span>
                 <a>关注</a>
-             
               </li>
-              <li>     <span>{{followeds}}</span>
+              <li>
+                <span>{{ followeds }}</span>
                 <a>粉丝</a>
-           
               </li>
             </ul>
           </div>
@@ -98,11 +98,11 @@
         Height: 1000000,
         timer: [],
         flag: true,
-        eventCount:0,
-        follows:0,
-        followeds:0,
-        avatarUrl:'',
-        nickname:''
+        eventCount: 0,
+        follows: 0,
+        followeds: 0,
+        avatarUrl: '',
+        nickname: '',
       };
     },
     mounted() {
@@ -173,6 +173,8 @@
           return '';
         }
       },
+
+      //---------------------------------------------------------------------------方法一-------------------------------------------
       //滑动判断
       handleScrollx() {
         const h = window.pageYOffset;
@@ -185,23 +187,46 @@
       lisenEventScoll() {
         window.addEventListener('scroll', this.handleScrollx, true);
         this.timer = setInterval(() => {
-          this.flag = true;
+          this.flag = true; //配合上面定义的flat使用
           // console.log(111)
         }, 1000);
       },
+      //----------------------------------------------------------------------------------------------------------------------------------------
+      // ---------------------------------方法二------------------------------------------------------------------
+      //    //监听，定时器
+      //   lisenEventScoll() {
+      //
+      //     window.addEventListener('scroll',this.throttle(this.getFriendEvent), true);
+      //    console.log(111)
+      //   },
 
+      // //节流
+      //   throttle(func){
+      //     return function(){
+      //       if(!this.timer){
+      //         this.timer = setTimeout(function(){
+      //           func()
+      //           this.timer = null
+      //           console.log(222)
+      //         },1000)
+      //       }
+
+      //     }
+
+      //   },
+      //---------------------------------------------------------------------------------------------------------------------------
       async getUSerDetail() {
         let data = localStorage.getItem('USER');
         let cookie = localStorage.getItem('COOKIE');
         let uid = JSON.parse(data).userId;
         let res = await api.getUSerDetail(uid, cookie);
-        let context = res.data.profile
-        this.eventCount=context.eventCount
-        this.follows=context.follows
-        this.followeds=context.follows
-        this.avatarUrl = context.avatarUrl
-        this.nickname = context.nickname
-        console.log(res.data)
+        let context = res.data.profile;
+        this.eventCount = context.eventCount;
+        this.follows = context.follows;
+        this.followeds = context.followeds;
+        this.avatarUrl = context.avatarUrl;
+        this.nickname = context.nickname;
+        console.log(res.data);
       },
     },
     unmounted() {
@@ -338,43 +363,41 @@
             .img-p {
               display: flex;
               box-sizing: border-box;
-              a{display: inline-block;
-                  width: 70px;
-              height: 70px;
-              border: 2px solid #ddd;
+              a {
+                display: inline-block;
+                width: 70px;
+                height: 70px;
+                border: 2px solid #ddd;
               }
 
-              p{
+              p {
                 margin-left: 10px;
-                
               }
-            
+
               img {
                 width: 100%;
               }
             }
 
-            .right-user-list{
+            .right-user-list {
               margin-top: 20px;
               display: flex;
-             li{
-               display: flex;
-               width: 33.3%;
-               flex-direction: column;
-               align-items: center;
-              
-               a{
-                color: black;
-                margin-top: 5px;
+              li {
+                display: flex;
+                width: 33.3%;
+                flex-direction: column;
+                align-items: center;
+
+                a {
+                  color: black;
+                  margin-top: 5px;
+                }
               }
-             }
 
-             .li2{
+              .li2 {
                 border-right: 2px solid #ddd;
-                 border-left: 2px solid #ddd;
-             }
-
-              
+                border-left: 2px solid #ddd;
+              }
             }
           }
         }

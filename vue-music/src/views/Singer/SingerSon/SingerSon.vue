@@ -9,14 +9,14 @@
           </div>
 
           <ul class="nav">
-            <li @click="goMv(this.$route.params.id)">热门作品</li>
+            <li @click="goHotWork(this.$route.params.id)">热门作品</li>
             <li @click="goAblum(this.$route.params.id)">所有专辑</li>
-            <li @click="goHotWork(this.$route.params.id)">相关MV</li>
+            <li @click="goMv(this.$route.params.id)">相关MV</li>
             <li @click="goRecommed(this.$route.params.id)">艺人介绍</li>
           </ul>
           <div class="router">
             <router-view></router-view>
-          </div>
+          </div> 
         </div>
       </div>
     </div>

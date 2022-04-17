@@ -63,9 +63,10 @@
         this.videos = res.data.result.videos;
         console.log(res.data);
 
-        //传递总数给父路由
-        await this.$store.commit('GetMusicData/GETSEARCHTOTAL', this.total);
-        this.eventHub.$emit('goData', 'Go');
+        // //传递总数给父路由
+        // await this.$store.commit('GetMusicData/GETSEARCHTOTAL', this.total);
+        // this.eventHub.$emit('goData', 'Go');
+           this.$emit('on-child',this.total)
       },
 
       handleSizeChange(val) {

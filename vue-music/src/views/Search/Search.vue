@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="nav">
-          <span class="tip">共搜索到{{ total }}信息</span>
+          <span class="tip" >共搜索到{{ total }}信息</span>
           <ul class="list">
             <li
               v-for="item in searchtab"
@@ -85,7 +85,7 @@
             <component :is="Component" v-if="!$route.meta.keepAlive" />
           </router-view> -->
 
-            <router-view v-slot="{ Component }">
+            <router-view v-slot="{ Component }" @on-child="onChildTotal">
             <keep-alive include="SearchSong">
               <component :is="Component" v-if="$route.meta.keepAlive" />
             </keep-alive>
@@ -139,12 +139,12 @@
       };
     },
     mounted() {
-      //获得搜索的总数
-      this.eventHub.$on('goData', (Go) => {
-        this.total = this.$store.state.GetMusicData.searchtoatl;
-      });
+      // //获得搜索的总数
+      // this.eventHub.$on('goData', (Go) => {
+      //   this.total = this.$store.state.GetMusicData.searchtoatl;
+      // });
 
-      // console.log(this.keywords);
+      // // console.log(this.keywords);
     },
 
     methods: {
@@ -236,10 +236,15 @@
         await this.songFunc(1, this.keywords);
         this.eventHub.$emit('getSong', 'Song');
       },
+
+      onChildTotal(total){
+        this.total = total
+        console.log(11111)
+      }
     },
-    unmounted() {
-        this.eventHub.$off('getSinger');
-    },
+    // unmounted() {
+    //     this.eventHub.$off('getSinger');
+    // },
   };
 </script>
 

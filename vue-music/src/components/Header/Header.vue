@@ -70,7 +70,7 @@
                     <i class="smyz"></i>
                     <a>实名验证</a>
                   </li>
-                  <li>
+                  <li @click="exit">
                     <i class="exit"></i>
                     <a>退出</a>
                   </li>
@@ -343,6 +343,7 @@
         if (res.data.code !== 200) {
           return alert('验证码错误');
         } else {
+          
           let result = await api.getPhoneLogin(this.phone, this.code);
           localStorage.setItem('COOKIE', result.data.cookie);
           localStorage.setItem('USER', JSON.stringify(result.data.profile));
@@ -448,14 +449,22 @@
 
       userData() {
         if (localStorage.getItem('USER')) {
-          this.userShow = !this.userShow;
+          this.userShow = false;
           let data = JSON.parse(localStorage.getItem('USER'));
           this.name = data.nickname;
           this.userImg = data.avatarUrl;
           // console.log(data)
           // console.log(localStorage.getItem('COOKIE'))
+        }else{
+          this.userShow = true
         }
       },
+
+    exit(){
+      localStorage.removeItem("COOKIE")
+      localStorage.removeItem("USER")
+      this.userData()
+    }
     },
   };
 </script>

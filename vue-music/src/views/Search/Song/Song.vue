@@ -53,6 +53,7 @@
         total: 0,
         pageSize: 52,
         pageNo: 1,
+        emitShow: true,
       };
     },
     mounted() {
@@ -77,8 +78,11 @@
         //传递总数给父路由
         // await this.$store.commit('GetMusicData/GETSEARCHTOTAL', this.total);
         // this.eventHub.$emit('goData', 'Go');
-       this.$emit('on-child',this.total)
-        console.log(res.data);
+        if (this.emitShow) {
+          this.$emit('on-child', this.total);
+          this.emitShow = false;
+          console.log('song');
+        }
       },
 
       handleSizeChange(val) {
@@ -104,7 +108,7 @@
       //跳转到歌手详情
       getSinger(id) {
         this.$router.push({
-          name: 'hotwork',
+          name: 'singerdatilhotwork',
           params: {
             id,
           },
@@ -155,6 +159,11 @@
         return mun;
       },
     },
+    // unmounted() {
+    //   this.eventHub.$off('getSong');
+
+    //   console.log(22)
+    // },
   };
 </script>
 

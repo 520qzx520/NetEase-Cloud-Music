@@ -236,8 +236,36 @@ getFriendEvents(pagesize,cookie,lasttime){
 // export const reqUserDetail = (uid,cookie) => request({url:`/user/detail?uid=${uid}&cookie=${cookie}`,method:'GET'});
 getUSerDetail(uid,cookie){
     return axios.get(`api/user/detail?uid=${uid}&cookie=${cookie}`)
-}
+},
 
+// mv 地址
+// 说明 : 调用此接口 , 传入 mv id,可获取 mv 播放地址
+
+// 必选参数 : id: mv id
+
+// 可选参数 : r: 分辨率,默认 1080,可从 /mv/detail 接口获取分辨率列表
+
+// 接口地址 : /mv/url
+
+// 调用例子 :
+
+// /mv/url?id=5436712 /mv/url?id=10896407&r=10800
+
+getMvUrl(id){
+    return axios.get(`api/mv/url?id=${id}`)
+},
+
+// 获取视频播放地址
+// 说明 : 调用此接口 , 传入视频 id,可获取视频播放地址
+
+// 必选参数 : id: 视频 的 id
+
+// 接口地址 : /video/url
+
+
+getVideoUrl(id){
+    return axios.get(`api/video/url?id=${id}`)
+},
 }
 
 export default api

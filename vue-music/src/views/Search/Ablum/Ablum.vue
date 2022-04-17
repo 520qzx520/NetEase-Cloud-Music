@@ -35,12 +35,14 @@
 <script>
   import api from '../../../api/Api';
   export default {
+    name: 'searchAblum',
     data() {
       return {
         total: 100,
         pageSize: 52,
         pageNo: 1,
         albums: [],
+        emitShow: true,
       };
     },
 
@@ -64,7 +66,11 @@
         //传递总数给父路由
         // await this.$store.commit('GetMusicData/GETSEARCHTOTAL', this.total);
         // this.eventHub.$emit('goData', 'Go');
-           this.$emit('on-child',this.total)
+        if (this.emitShow) {
+          this.$emit('on-child', this.total);
+          this.emitShow = false;
+          console.log('ablum');
+        }
       },
       handleSizeChange(val) {
         this.pageSize = val;
@@ -97,6 +103,12 @@
           // 'albumsong'
         );
       },
+    },
+
+    unmounted() {
+      this.eventHub.$off('getAblum');
+
+      console.log(22);
     },
   };
 </script>

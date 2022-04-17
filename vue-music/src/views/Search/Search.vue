@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="nav">
-          <span class="tip" >共搜索到{{ total }}信息</span>
+          <span class="tip">共搜索到{{ total }}信息</span>
           <ul class="list">
             <li
               v-for="item in searchtab"
@@ -67,17 +67,17 @@
             </li>
           </ul>
 
-        <!-- 固定结构   -->
+          <!-- 固定结构   -->
           <!-- <router-view v-slot="{ Component }">
             <keep-alive>
               <component :is="Component" v-if="$route.meta.keepAlive" />
             </keep-alive>
             <component :is="Component" v-if="!$route.meta.keepAlive" />
           </router-view> -->
-        <!--  include="SearchSong"  意思是，组件名 为 SearchSong的就缓存数据，路由切换后，不会更改页面内容，用于保存输入框的数据
+          <!--  include="SearchSong"  意思是，组件名 为 SearchSong的就缓存数据，路由切换后，不会更改页面内容，用于保存输入框的数据
         多个的话可以这样    include="SearchSong，song" ----用 ， 隔开 include="SearchSong"
         -->
-        <!-- 这样是这个父组件的所有组件 -->
+          <!-- 这样是这个父组件的所有组件 -->
           <!-- <router-view v-slot="{ Component }">
             <keep-alive >
               <component :is="Component" v-if="$route.meta.keepAlive" />
@@ -85,15 +85,12 @@
             <component :is="Component" v-if="!$route.meta.keepAlive" />
           </router-view> -->
 
-            <router-view v-slot="{ Component }" @on-child="onChildTotal">
-            <keep-alive include="SearchSong">
+          <router-view v-slot="{ Component }" @on-child="onChildTotal">
+            <keep-alive :include="keepAlives">
               <component :is="Component" v-if="$route.meta.keepAlive" />
             </keep-alive>
             <component :is="Component" v-if="!$route.meta.keepAlive" />
           </router-view>
-
-  
-     
         </div>
       </div>
     </div>
@@ -134,6 +131,7 @@
         playlists: [],
         songs: [],
         total: '0',
+        keepAlives: ['SearchSong'],
         type: 1,
         keywords: '',
       };
@@ -143,7 +141,6 @@
       // this.eventHub.$on('goData', (Go) => {
       //   this.total = this.$store.state.GetMusicData.searchtoatl;
       // });
-
       // // console.log(this.keywords);
     },
 
@@ -158,7 +155,7 @@
       //   console.log(res.data);
       // },
 
-    //单曲
+      //单曲
       async songFunc(type, keywords) {
         await this.$router.push({
           name: 'searchSong',
@@ -170,57 +167,62 @@
       },
 
       //点击nav发送不同请求，切换不同页面
-    async  btnClickList(type, keywords) {
+      async btnClickList(type, keywords) {
         switch (type) {
           //单曲
           case 1:
             this.songFunc(type, keywords);
+            // this.$route.meta.keepAlive = false;
+            // this.keepAlives[0] = 'searchSong';
+            // this.$route.meta.keepAlive = true;
             break;
           //专辑
           case 10:
-           await this.$router.push({
+            await this.$router.push({
               name: 'searchAblum',
               params: {
                 keywords,
                 type,
               },
             });
-                 this.eventHub.$emit('getAblum', 'Ablum');
+            this.eventHub.$emit('getAblum', 'Ablum');
+            // this.$route.meta.keepAlive = false;
+            // this.keepAlives[0] = 'searchAblum';
+            // this.$route.meta.keepAlive = true;
             break;
-         //歌手
+          //歌手
           case 100:
-          await  this.$router.push({
+            await this.$router.push({
               name: 'searchSinger',
               params: {
                 keywords,
                 type,
               },
-            }); 
-          this.eventHub.$emit('getSinger', 'Singer');
+            });
+            this.eventHub.$emit('getSinger', 'Singer');
             break;
-       //歌单
+          //歌单
           case 1000:
-           await this.$router.push({
+            await this.$router.push({
               name: 'searchPlaylist',
               params: {
                 keywords,
                 type,
               },
             });
-        this.eventHub.$emit('getPlayList','Playlist')
-
+            this.eventHub.$emit('getPlayList', 'Playlist');
 
             break;
           //视频
           case 1014:
-         await   this.$router.push({
+            await this.$router.push({
               name: 'searchMv',
               params: {
                 keywords,
                 type,
               },
             });
-        this.eventHub.$emit('getMv','Mv')
+            this.eventHub.$emit('getMv', 'Mv');
 
             break;
         }
@@ -237,14 +239,12 @@
         this.eventHub.$emit('getSong', 'Song');
       },
 
-      onChildTotal(total){
-        this.total = total
-        console.log(11111)
-      }
+      onChildTotal(total) {
+        this.total = total;
+      },
     },
-    // unmounted() {
-    //     this.eventHub.$off('getSinger');
-    // },
+    
+   
   };
 </script>
 

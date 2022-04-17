@@ -7,6 +7,7 @@ const router = createRouter({
 	history: createWebHashHistory(),
 	linkActiveClass: 'active',
 
+  
 	routes: [
 
 		{
@@ -50,9 +51,9 @@ const router = createRouter({
 					path: 'search',
 					component: () => import('../views/Search/Search.vue'),
 					redirect: { name: 'searchSong' },
-					meta: {
-						keepAlive: true
-					},
+					// meta: {
+					// 	keepAlive: true
+					// },
 					children: [
 						{	//搜索下的专辑
 							name: 'searchAblum',
@@ -195,8 +196,15 @@ const router = createRouter({
 					name: 'playmusic',
 					path: 'playmusic/:id',
 					component: () => import('../views/PlayMusic/PlayMusic.vue')
-				}
+				},
 
+				//播放mv 跟 视频
+
+				{
+					name: 'PlayMvAndVdio',
+					path: 'playmvandvdio',
+					component: () => import('../views/PlayMvAndVdio/PlayMvAndVdio.vue')
+				},
 
 
 			],
@@ -206,7 +214,17 @@ const router = createRouter({
 
 
 	],
+
+	
+// 	beforeRouteLeave(to, from,next) {
+// 	// 设置下一个路由的 meta
+// 	to.meta.keepAlive = true;
+// 	from.meta.keepAlive = true
+// 	next();
+// }
 })
+
+
 //路由导航守卫
 // router.beforeEach((to, from, next) => {
 //     if (to.path == "/login") next()
@@ -222,5 +240,7 @@ const router = createRouter({
 // 	if (!tokenStr) return next('/login')
 // 	next()
 // })
+
+
 
 export default router

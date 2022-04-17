@@ -7,10 +7,12 @@
           :key="item.id"
           :class="{ bg: index % 2 == 0 }"
         >
-          <div class="songname pa"> 
+          <div class="songname pa">
             <i class="play"></i>
-            <img v-lazy="item.coverImgUrl"/>
-            <span @click="getPlayList(item.id)">{{ cutString(item.name, 16) }}</span>
+            <img v-lazy="item.coverImgUrl" />
+            <span @click="getPlayList(item.id)">
+              {{ cutString(item.name, 16) }}
+            </span>
             <div class="disp">
               <div class="icon">
                 <i class="i1"></i>
@@ -20,11 +22,9 @@
               </div>
             </div>
           </div>
-          <div class="singername pa fl">
-            {{ item.trackCount }}首
-          </div>
+          <div class="singername pa fl">{{ item.trackCount }}首</div>
           <div class="singerabulm pa fl" @click="getUser(item.creator.userId)">
-           by 《{{ cutString(item.creator.nickname, 8) }}》
+            by 《{{ cutString(item.creator.nickname, 8) }}》
           </div>
           <div class="songtime pa fl">{{ item.playCount }}次播放</div>
         </li>
@@ -47,12 +47,14 @@
 <script>
   import api from '../../../api/Api';
   export default {
+    name: 'searchPlaylist',
     data() {
       return {
         total: 100,
         pageSize: 52,
         pageNo: 1,
         playlist: [],
+        emitShow: true,
       };
     },
 
@@ -71,13 +73,17 @@
           this.pageSize,
           (this.pageNo - 1) * this.pageSize,
         );
-        console.log(res)
+        console.log(res);
         this.total = res.data.result.playlistCount;
         this.playlist = res.data.result.playlists;
         //传递总数给父路由
         // await this.$store.commit('GetMusicData/GETSEARCHTOTAL', this.total);
         // this.eventHub.$emit('goData', 'Go');
-           this.$emit('on-child',this.total)
+        if (this.emitShow) {
+          this.$emit('on-child', this.total);
+          this.emitShow = false;
+          console.log('playlist');
+        }
       },
       handleSizeChange(val) {
         this.pageSize = val;
@@ -89,7 +95,7 @@
         this.getDataForSearchPlayList();
       },
 
-         getUser(id){
+      getUser(id) {
         this.$router.push(
           {
             name: 'singerdatil',
@@ -100,7 +106,7 @@
           // 'albumsong'
         );
       },
-     getPlayList(id){
+      getPlayList(id) {
         this.$router.push(
           {
             name: 'playlist',
@@ -111,7 +117,7 @@
           // 'albumsong'
         );
       },
-      cutString(str,len) {
+      cutString(str, len) {
         if (str) {
           if (str.length > len) {
             return str.substring(0, len) + '...';
@@ -120,7 +126,12 @@
         }
         return '';
       },
+    },
 
+    unmounted() {
+      this.eventHub.$off('getPlayList');
+
+      console.log(22);
     },
   };
 </script>
@@ -149,7 +160,7 @@
             box-sizing: border-box;
             height: 100%;
             color: #22b8ff;
-            img{
+            img {
               margin: 0 10px;
               width: 50px;
               height: 50px;
@@ -176,8 +187,8 @@
 
               .icon {
                 position: absolute;
-                top:50%;
-                transform: translate(5%,-50%);
+                top: 50%;
+                transform: translate(5%, -50%);
                 right: 0;
                 display: flex;
                 padding-right: 10px;
@@ -245,7 +256,7 @@
             }
           }
 
-          .fl{
+          .fl {
             display: flex;
             align-items: center;
           }

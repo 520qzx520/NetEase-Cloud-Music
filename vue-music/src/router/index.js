@@ -51,9 +51,9 @@ const router = createRouter({
 					path: 'search',
 					component: () => import('../views/Search/Search.vue'),
 					redirect: { name: 'searchSong' },
-					// meta: {
-					// 	keepAlive: true
-					// },
+					meta: {
+						keepAlive: true
+					},
 					children: [
 						{	//搜索下的专辑
 							name: 'searchAblum',
@@ -205,6 +205,13 @@ const router = createRouter({
 					path: 'playmvandvdio',
 					component: () => import('../views/PlayMvAndVdio/PlayMvAndVdio.vue')
 				},
+
+				//主播电台
+				{
+					name:'djradio',
+					path:"djradio",
+					component:()=> import('../views/DjRadio/DjRadio.vue')
+				}
 
 
 			],

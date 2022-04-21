@@ -13,10 +13,10 @@ const api = {
     getHotDecomment(limit){
         return axios.get(`api/personalized?limit=${limit}`)
     },
-
+//http://iwenwiki.com:3000
 //    limit=10,offset=0,area,type)=>request({url:`/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`
     getNewSong( limit,offset,area,type){
-        return axios.get(`http://iwenwiki.com:3000/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`)
+        return axios.get(`api/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`)
     },
 
 // 获取歌单分类 /playlist/catlist
@@ -266,6 +266,94 @@ getMvUrl(id){
 getVideoUrl(id){
     return axios.get(`api/video/url?id=${id}`)
 },
+
+// 必选参数 : id: 视频的 id
+
+// 可选参数 : limit: 取出评论数量 , 默认为 20
+
+// offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值
+
+// before: 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过 5000 条评论的时候需要用到)
+
+// 接口地址 : /comment/video
+
+// 调用例子 : /comment/video?id=89ADDE33C0AAE8EC14B99F6750DB954D
+// }
+// 视频评论
+getVdioComment(id,limit,offset){
+    return axios.get(`api/comment/video?id=${id}&limit=${limit}&offset=${offset}`)
+},
+
+//mv评论
+// /comment/mv?id=5436712
+getMvComment(id,limit,offset){
+    return axios.get(`api/comment/mv?id=${id}&limit=${limit}&offset=${offset}`)
+},
+
+// 获取 mv 点赞转发评论数数据
+// 说明 : 调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1004 获得 ) , 可获取对应 MV 点赞转发评论数数据
+
+// 必选参数 : mvid: mv 的 id
+
+// 接口地址 : /mv/detail/info
+
+// 调用例子 : /mv/detail/info?mvid=5436712
+getMvDetail(id){
+    return axios.get(`api/mv/detail/info?mvid=${id}`)
+},
+
+// 获取视频点赞转发评论数数据
+// 说明 : 调用此接口 , 传入 vid ( 视频 id ) , 可获取对应视频点赞转发评论数数据 必选参数 : vid: 视频 id
+
+// 接口地址 : /video/detail/info
+
+// 调用例子 : /video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D
+
+getVdioDetail(id){
+    return axios.get(` api/video/detail/info?vid=${id}`)
+},
+// 获取电台分类 /dj/catelist
+// export const reqCateList = ()=>request({url:'/dj/catelist',method:'GET'});
+getDjCateList(){
+    return axios.get(`api/dj/catelist`)
+},
+// 电台个性推荐
+// 说明 : 调用此接口,可获取电台个性推荐列表 可选参数 :
+
+// limit : 返回数量,默认为 6,总条数最多 6 条
+
+// 接口地址 : /dj/personalize/recommend
+
+// 调用例子 : /dj/personalize/recommend?limit=5
+
+getDjPerRecommend(limit){
+    return axios.get(`api/dj/program/toplist/hours?limit=${limit}`)
+},
+
+
+// 获取推荐电台节目 /program/recommend
+// export const reqPorgramRecommend = ()=>request({url:'/program/recommend',methods:'GET'});
+getPorgramRecommend(){
+    return axios.get(`api/program/recommend`)
+},
+
+// 电台 - 节目榜
+// 说明 : 登录后调用此接口 , 可获得电台节目榜
+
+// 可选参数 :
+
+// limit : 返回数量 , 默认为 100
+
+// offset : 偏移数量，用于分页 , 如 :( 页数 -1)*100, 其中 100 为 limit 的值 , 默认为 0
+
+// 接口地址 : /dj/program/toplist
+
+// 调用例子 : /dj/program/toplist?limit=1
+
+getDjProgramTopList(limit){
+    return axios.get(`api/dj/personalize/recommend`)
+}
+
 }
 
 export default api

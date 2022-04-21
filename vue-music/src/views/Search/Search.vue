@@ -86,11 +86,11 @@
           </router-view> -->
 
           <router-view v-slot="{ Component }" @on-child="onChildTotal">
-            <keep-alive :include="keepAlives">
+            <keep-alive :include="keepAlives" :max="4">
               <component :is="Component" v-if="$route.meta.keepAlive" />
             </keep-alive>
             <component :is="Component" v-if="!$route.meta.keepAlive" />
-          </router-view>
+          </router-view> 
         </div>
       </div>
     </div>
@@ -131,7 +131,7 @@
         playlists: [],
         songs: [],
         total: '0',
-        keepAlives: ['SearchSong'],
+        keepAlives:['Search'],
         type: 1,
         keywords: '',
       };
@@ -157,13 +157,16 @@
 
       //单曲
       async songFunc(type, keywords) {
-        await this.$router.push({
+        await this.$router.replace({
           name: 'searchSong',
           params: {
             type,
             keywords,
           },
-        });
+        })
+         this.keepAlives[0] = 'SearchSong';
+         this.eventHub.$emit('getSong', 'Song');
+       
       },
 
       //点击nav发送不同请求，切换不同页面
@@ -171,57 +174,61 @@
         switch (type) {
           //单曲
           case 1:
+            
             this.songFunc(type, keywords);
-            // this.$route.meta.keepAlive = false;
-            // this.keepAlives[0] = 'searchSong';
-            // this.$route.meta.keepAlive = true;
+          
+            
             break;
           //专辑
           case 10:
-            await this.$router.push({
+            await this.$router.replace({
               name: 'searchAblum',
               params: {
                 keywords,
                 type,
               },
-            });
+            }); 
+            
+            this.keepAlives[0] = 'searchAblum';
             this.eventHub.$emit('getAblum', 'Ablum');
-            // this.$route.meta.keepAlive = false;
-            // this.keepAlives[0] = 'searchAblum';
-            // this.$route.meta.keepAlive = true;
+        
+          
             break;
           //歌手
           case 100:
-            await this.$router.push({
+            await this.$router.replace({
               name: 'searchSinger',
               params: {
                 keywords,
                 type,
               },
             });
+               this.keepAlives[0] = 'searchSinger';
             this.eventHub.$emit('getSinger', 'Singer');
             break;
           //歌单
           case 1000:
-            await this.$router.push({
+            await this.$router.replace({
               name: 'searchPlaylist',
               params: {
                 keywords,
                 type,
               },
             });
+             this.keepAlives[0] = 'searchPlaylist';
             this.eventHub.$emit('getPlayList', 'Playlist');
 
             break;
           //视频
           case 1014:
-            await this.$router.push({
+            await this.$router.replace({
               name: 'searchMv',
               params: {
                 keywords,
                 type,
               },
             });
+              this.keepAlives[0] = 'searchMv';
             this.eventHub.$emit('getMv', 'Mv');
 
             break;

@@ -6,7 +6,7 @@
          <router-link to="/music"> <li>推荐</li></router-link>
             <router-link to="/topsong">  <li >排行榜</li></router-link>
             <router-link to="/hotsong">  <li>歌单</li></router-link>
-            <router-link to="/music">  <li>主播电台</li></router-link>
+            <router-link to="/djradio">  <li>主播电台</li></router-link>
             <router-link to="/singer">  <li>歌手</li></router-link>
             <router-link to="/newsong">  <li>新碟上架</li></router-link>
         </ul>

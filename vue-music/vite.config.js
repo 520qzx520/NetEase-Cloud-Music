@@ -11,7 +11,9 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
         '/api': {
-            target: 'http://121.4.92.135:3000',   //代理接口
+          // http://iwenwiki.com:3000
+          // http://121.4.92.135:3000
+            target: 'http://music.cyrilstudio.top/ ',   //代理接口
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, '')
       },

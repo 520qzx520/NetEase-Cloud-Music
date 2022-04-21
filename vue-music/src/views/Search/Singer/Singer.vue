@@ -33,7 +33,9 @@
   import api from '../../../api/Api';
 
   export default {
+    name:'searchSinger',
     data() {
+      
       return {
         songlist: [],
         total: 0,

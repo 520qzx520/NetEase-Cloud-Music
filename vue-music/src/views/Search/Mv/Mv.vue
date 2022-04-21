@@ -51,8 +51,8 @@
     data() {
       return {
         songlist: [],
-        total: 0,
-        pageSize: 52,
+        total: 20,
+        pageSize: 25,
         pageNo: 1,
         videos: [],
         emitShow: true,

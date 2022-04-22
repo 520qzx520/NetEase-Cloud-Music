@@ -46,7 +46,26 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       },
 
-    }
+    },
 
-  }
+    
+
+  },
+
+// location /api {
+//       rewrite ^/api/(.*)$ /$1 break;
+//       proxy_pass http://xxx.com;
+//       }
+//       location /socket.io {
+//       rewrite ^/api/(.*)$ /$1 break;
+//       proxy_pass http://xxx.com;
+//       }
+  
+// location ^~ /api/ {
+// 	proxy_pass http://xx.xx.xx.x1:8090/api/;  # 转发地址
+// }
+		
+// location ^~ /web/ {
+// 	proxy_pass http://xx.xx.xx.x2:8090/web/;  # 转发地址
+
 })

@@ -1,28 +1,28 @@
-import axios from "axios"
+import requests from "./requests"
 
 
-const api = {
+const  api= {
     //获取封面banner资源 /banner?type=0
 // export const reqBanner = ()=>request({url:'/banner?type=0',method:'GET'});
     getBanner(){
-        return axios.get('api/banner?type=0')
+        return requests.get('/banner?type=0')
     },
 
     // 获取热门推荐 /personalized?limit=8
 // export const reqPersonalized = (limit)=>request({url:`/personalized?limit=${limit}`,method:'GET'});
     getHotDecomment(limit){
-        return axios.get(`api/personalized?limit=${limit}`)
+        return requests.get(`/personalized?limit=${limit}`)
     },
 //http://iwenwiki.com:3000
 //    limit=10,offset=0,area,type)=>request({url:`/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`
     getNewSong( limit,offset,area,type){
-        return axios.get(`api/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`)
+        return requests.get(`http://music.cyrilstudio.top/top/album?offset=${offset}&limit=${limit}&area=${area}&type=${type}`)
     },
 
 // 获取歌单分类 /playlist/catlist
 // export const reqCatList = ()=>request({url:'/playlist/catlist',methods:'GET'});
     getCatList(){
-        return axios.get('api/playlist/catlist')
+        return requests.get('/playlist/catlist')
 
     },
 
@@ -30,39 +30,39 @@ const api = {
 // export const reqTopList = ()=>request({url:'/toplist',method:'GET'});
 
 getTopList(){
-    return axios.get('api/toplist')
+    return requests.get('/toplist')
 },
 
 // 获取歌曲详情 /song/detail?ids=
 // export const reqSong = (ids)=>request({url:`/song/detail?ids=${ids}`,method:'GET'});
 getSong(ids){
-    return axios.get(`api/song/detail?ids=${ids}`)
+    return requests.get(`/song/detail?ids=${ids}`)
 },
 
 // /playlist/detail?id=${id}
 
 getPlayList(id){
-    return axios.get(`api/playlist/detail?id=${id} `)
+    return requests.get(`/playlist/detail?id=${id} `)
 },
 
 // 热门歌手 /top/artists?offset=0&limit=30
 //  (limit=50,offset=0)=>request({url:`/top/artists?offset=${offset}&limit=${limit}`,method:'GET'});
 getSinger(offset,limit){
-    return axios.get(`api/top/artists?offset=${offset}&limit=${limit} `)
+    return requests.get(`/top/artists?offset=${offset}&limit=${limit} `)
 },
 
 // 最热主播榜 /dj/toplist/popular?limit=30
 //  reqDjTopList = (limit = 30)=>request({url:`/dj/toplist/popular?limit=${limit}`,method:'GET'});
 
 getDjTopList(limit){
-    return axios.get(`api/dj/toplist/popular?limit=${limit}`)
+    return requests.get(`/dj/toplist/popular?limit=${limit}`)
 },
 
 // playListCat = (limit=50,order='new',cat='全部',offset=0) =>
 //  request({url:`/top/playlist?limit=${limit}&order=${order}&cat=${cat}&offset=${offset}`,method:'GET'});
 
 getPlayListCat(limit,order,cat,offset){
-    return axios.get(`api/top/playlist?limit=${limit}&order=${order}&cat=${cat}&offset=${offset}`)
+    return requests.get(`/top/playlist?limit=${limit}&order=${order}&cat=${cat}&offset=${offset}`)
 },
 
 // 歌手分类列表 artist/list
@@ -75,14 +75,14 @@ getPlayListCat(limit,order,cat,offset){
 //
 
 getSingerList(type,area,initial,limit,offset){
-    return axios.get(`api/artist/list?type=${type}&area=${area}&initial=${initial}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/artist/list?type=${type}&area=${area}&initial=${initial}&limit=${limit}&offset=${offset}`)
 },
 
 
 // 获取歌单评论 
 // PlayList = (id,limit=20,offset=0)=>request({url:`/comment/playlist?id=${id}&limit=${limit}&offset=${offset}`,method:'GET'});
 getPlayListComment(id,limit,offset){
-    return  axios.get(`api/comment/playlist?id=${id}&limit=${limit}&offset=${offset}`)
+    return  requests.get(`/comment/playlist?id=${id}&limit=${limit}&offset=${offset}`)
 },
 
 
@@ -90,74 +90,74 @@ getPlayListComment(id,limit,offset){
 // export const reqCommentMusic = (id,limit=20,offset = 0)=>request({url:`/comment/music?id=${id}&limit=${limit}&offset=${offset}`,method:'GET'});
 
 getMusicComment(id,limit,offset){
-    return axios.get(`api/comment/music?id=${id}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/comment/music?id=${id}&limit=${limit}&offset=${offset}`)
 },
 
 // 获取音乐url /song/url
 // export const reqSongUrl = (id)=>request({url:`/song/url?id=${id}`,method:'GET'});
 getMusicUrl (id){
-    return axios.get(`api/song/url?id=${id}`)
+    return requests.get(`/song/url?id=${id}`)
 },
 
 // 获取歌词 /lyric?id=33894312
 // export const reqlyric = (id)=>request({url:`/lyric?id=${id}`,method:'get'});
 getMusicLyric(id){
-    return axios.get(`api/lyric?id=${id}`)
+    return requests.get(`/lyric?id=${id}`)
 },
 
 // 获取歌手详情 /artist/detail
 // export const reqArtistDetail = (id)=>request({url:`/artist/detail?id=${id}`,method:'GET'});
 getSingerDetail(id){
-    return axios.get(`api/artist/detail?id=${id}`)
+    return requests.get(`/artist/detail?id=${id}`)
 },
 
 // 获取歌手单曲 /artists
 // export const reqArtist = (id)=>request({url:`/artists?id=${id}`,method:'GET'});
 
 getSongerSongList(id){
-    return axios.get(`api/artists?id=${id}`)
+    return requests.get(`/artists?id=${id}`)
 },
 
 // // 获取歌手专辑 /artist/album
 // export const reqArtistAlbum = (id,limit=12,offset=0)=>request({url:`/artist/album?id=${id}&limit=${limit}&offset=${offset}`,method:'GET'});
 
 getSongerAlbum(id,limit,offset){
-    return axios.get(`api/artist/album?id=${id}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/artist/album?id=${id}&limit=${limit}&offset=${offset}`)
 },
 // // 获取歌手mv /artist/mv
 // export const reqArtistMv = (id)=>request({url:`/artist/mv?id=${id}`,method:'GET'});
 getSongerMv(id){
-    return axios.get(`api/artist/mv?id=${id}`)
+    return requests.get(`/artist/mv?id=${id}`)
 
 },
 // // 获取歌手描述 /artist/desc
 // export const reqArtistDesc = (id) =>request({url:`/artist/desc?id=${id}`,method:'GET'});
 
 getSongerDeec(id){
-    return axios.get(`api/artist/desc?id=${id}`)
+    return requests.get(`/artist/desc?id=${id}`)
 },
 //搜索
 userSearch(keywords){
-    return axios.get(`api/search/suggest?keywords=${keywords}`)
+    return requests.get(`/search/suggest?keywords=${keywords}`)
 },
 
 // 搜索 /cloudsearch()
 // (keywords,type,limit=30,offset=0) =>  request({url:`/cloudsearch?keywords=${keywords}&type=${type}&limit=${limit}&offset=${offset}`,method:'GET'});
 
 getDataForSearch(keywords,type,limit,offset){
-    return axios.get(`api/cloudsearch?keywords=${keywords}&type=${type}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/cloudsearch?keywords=${keywords}&type=${type}&limit=${limit}&offset=${offset}`)
 },
 // 获取专辑内容 /album
 // export const reqAlbums = (id)=>request({url:`/album?id=${id}`,method:'GET'});
 getAlbumsSong(id){
-    return axios.get(`api/album?id=${id}`)
+    return requests.get(`/album?id=${id}`)
 
 },
 
 // 获取专辑评论 /comment/album
 // export const reqCommentAlbum = (id,limit=20,offset=0)=>request({url:`/comment/album?id=${id}&limit=${limit}&offset=${offset}`,method:'GET'});
 getAlbumSongComment(id,limit,offset){
-    return axios.get(`api/comment/album?id=${id}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/comment/album?id=${id}&limit=${limit}&offset=${offset}`)
 },
 
 
@@ -166,7 +166,7 @@ getAlbumSongComment(id,limit,offset){
 // export const reqLoginQrKey = ()=>request({url:'/login/qr/key',method:'GET'});
 
 getCodeKey(){
-    return axios.get(`api/login/qr/key`)
+    return requests.get(`/login/qr/key`)
 },
 
 
@@ -174,44 +174,44 @@ getCodeKey(){
 // export const reqLoginQrCreate = (key)=>request({url:`/login/qr/create?key=${key}`,method:"POST"});
 
 getCodeCreate(key){
-    return axios.post(`api/login/qr/create?key=${key}`)
+    return requests.post(`/login/qr/create?key=${key}`)
 },
 
 // //二维码检测扫描状态接口 /login/qr/check?key=
 // export const reqLoginQrCheck = (key)=>request({url:`/login/qr/check?key=${key}`,method:'POST'});
 
 getCodeCheck(key){
-    return axios.post(`api/login/qr/check?key=${key}`)
+    return requests.post(`/login/qr/check?key=${key}`)
 },
 
 //发送验证码给手机 /captcha/sent?phone=
 //  reqSent = (phone)=>request({url:`/captcha/sent?phone=${phone}`,method:'POST'});
 
 getSentCode(phone){
-    return axios.post(`api/captcha/sent?phone=${phone}`)
+    return requests.post(`/captcha/sent?phone=${phone}`)
 },
 
 
 // //校验验证码 /captcha/verify?phone=?captcha=?
 //  reqVerify = (phone,captcha)=>request({url:`/captcha/verify?phone=${phone}&captcha=${captcha}`,method:'GET'});
 getPhoneCheck(phone,captcha){
-    return axios.get(`api/captcha/verify?phone=${phone}&captcha=${captcha}`)
+    return requests.get(`/captcha/verify?phone=${phone}&captcha=${captcha}`)
 },
 
 // //手机登录（验证码）/login/cellphone?phone=&captcha=
 // = (phone,num)=> request({url:`/login/cellphone?phone=${phone}&captcha=${num}`,method:'POST'});
 getPhoneLogin(phone,num){
-    return axios.post(`api/login/cellphone?phone=${phone}&captcha=${num}`)
+    return requests.post(`/login/cellphone?phone=${phone}&captcha=${num}`)
 },
 
 //手机登录（密码） /login/cellphone?phone=&password=
 // request({url:`/login/cellphone?phone=${phone}&password=${num}`,method:'POST'});
 getPhonePasswordLogin(phone,num){
-    return axios.post(`api/login/cellphone?phone=${phone}&password=${num}`)
+    return requests.post(`/login/cellphone?phone=${phone}&password=${num}`)
 },
 //用户账号信息
 getAccout(cookie){
-    return axios.post(`api/user/account?cookie=${cookie}`)
+    return requests.post(`/user/account?cookie=${cookie}`)
 },
 
 
@@ -219,23 +219,23 @@ getAccout(cookie){
 // export const reqUserPlayList = (uid,cookie)=>request({url:`/user/playlist?uid=${uid}&cookie=${cookie}`});
 
 getUserPlayList(uid,cookie){
-    return axios.get(`api/user/playlist?uid=${uid}&cookie=${cookie}`)
+    return requests.get(`/user/playlist?uid=${uid}&cookie=${cookie}`)
 },
 // 获取登录后用户歌单详情 /playlist/detail
 // export const reqPlayListDetail =(id,cookie)=>request({url:`/playlist/detail?id=${id}&cookie=${cookie}`,method:'GET'});
 
 getUsePlayListDetail(id,cookie){
-    return axios.get(`api/playlist/detail?id=${id}&cookie=${cookie}`)
+    return requests.get(`/playlist/detail?id=${id}&cookie=${cookie}`)
 },
 
 getFriendEvents(pagesize,cookie,lasttime){
-    return axios.get(`api/event?pagesize=${pagesize}&cookie=${cookie}&lasttime=${lasttime}`)
+    return requests.get(`/event?pagesize=${pagesize}&cookie=${cookie}&lasttime=${lasttime}`)
 },
 
 // 获取用户详情 /user/detail
 // export const reqUserDetail = (uid,cookie) => request({url:`/user/detail?uid=${uid}&cookie=${cookie}`,method:'GET'});
 getUSerDetail(uid,cookie){
-    return axios.get(`api/user/detail?uid=${uid}&cookie=${cookie}`)
+    return requests.get(`/user/detail?uid=${uid}&cookie=${cookie}`)
 },
 
 // mv 地址
@@ -252,7 +252,7 @@ getUSerDetail(uid,cookie){
 // /mv/url?id=5436712 /mv/url?id=10896407&r=10800
 
 getMvUrl(id){
-    return axios.get(`api/mv/url?id=${id}`)
+    return requests.get(`/mv/url?id=${id}`)
 },
 
 // 获取视频播放地址
@@ -264,7 +264,7 @@ getMvUrl(id){
 
 
 getVideoUrl(id){
-    return axios.get(`api/video/url?id=${id}`)
+    return requests.get(`/video/url?id=${id}`)
 },
 
 // 必选参数 : id: 视频的 id
@@ -281,13 +281,13 @@ getVideoUrl(id){
 // }
 // 视频评论
 getVdioComment(id,limit,offset){
-    return axios.get(`api/comment/video?id=${id}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/comment/video?id=${id}&limit=${limit}&offset=${offset}`)
 },
 
 //mv评论
 // /comment/mv?id=5436712
 getMvComment(id,limit,offset){
-    return axios.get(`api/comment/mv?id=${id}&limit=${limit}&offset=${offset}`)
+    return requests.get(`/comment/mv?id=${id}&limit=${limit}&offset=${offset}`)
 },
 
 // 获取 mv 点赞转发评论数数据
@@ -299,7 +299,7 @@ getMvComment(id,limit,offset){
 
 // 调用例子 : /mv/detail/info?mvid=5436712
 getMvDetail(id){
-    return axios.get(`api/mv/detail/info?mvid=${id}`)
+    return requests.get(`/mv/detail/info?mvid=${id}`)
 },
 
 // 获取视频点赞转发评论数数据
@@ -310,12 +310,12 @@ getMvDetail(id){
 // 调用例子 : /video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D
 
 getVdioDetail(id){
-    return axios.get(` api/video/detail/info?vid=${id}`)
+    return requests.get(` /video/detail/info?vid=${id}`)
 },
 // 获取电台分类 /dj/catelist
 // export const reqCateList = ()=>request({url:'/dj/catelist',method:'GET'});
 getDjCateList(){
-    return axios.get(`api/dj/catelist`)
+    return requests.get(`/dj/catelist`)
 },
 // 电台个性推荐
 // 说明 : 调用此接口,可获取电台个性推荐列表 可选参数 :
@@ -327,14 +327,14 @@ getDjCateList(){
 // 调用例子 : /dj/personalize/recommend?limit=5
 
 getDjPerRecommend(limit){
-    return axios.get(`api/dj/program/toplist/hours?limit=${limit}`)
+    return requests.get(`/dj/program/toplist/hours?limit=${limit}`)
 },
 
 
 // 获取推荐电台节目 /program/recommend
 // export const reqPorgramRecommend = ()=>request({url:'/program/recommend',methods:'GET'});
 getPorgramRecommend(){
-    return axios.get(`api/program/recommend`)
+    return requests.get(`/program/recommend`)
 },
 
 // 电台 - 节目榜
@@ -351,7 +351,7 @@ getPorgramRecommend(){
 // 调用例子 : /dj/program/toplist?limit=1
 
 getDjProgramTopList(limit){
-    return axios.get(`api/dj/personalize/recommend`)
+    return requests.get(`/dj/personalize/recommend`)
 }
 
 }

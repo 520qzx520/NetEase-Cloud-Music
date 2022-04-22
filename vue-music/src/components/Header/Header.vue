@@ -386,11 +386,19 @@
       //手机密码登录
       async getPhonePasswordLogin() {
         let res = await api.getPhonePasswordLogin(this.phone, this.password);
-        localStorage.setItem('COOKIE', res.data.cookie);
+           console.log(res)
+           if (res.data.code == 200){
+               localStorage.setItem('COOKIE', res.data.cookie);
         localStorage.setItem('USER', JSON.stringify(res.data.profile));
-        //  this.getAccout()
-        this.LoginTF = false;
+       this.LoginTF = false;
         this.userData();
+           }else{
+             alert('手机号或密码错误')
+           }
+      
+        //  this.getAccout()
+     
+       
       },
 
       //二维码过期

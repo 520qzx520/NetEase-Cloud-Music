@@ -115,7 +115,7 @@ getSingerDetail(id){
 // export const reqArtist = (id)=>request({url:`/artists?id=${id}`,method:'GET'});
 
 getSongerSongList(id){
-    return requests.get(`/artists?id=${id}`)
+    return requests.get(`http://121.4.92.135:3000/artists?id=${id}`)
 },
 
 // // 获取歌手专辑 /artist/album

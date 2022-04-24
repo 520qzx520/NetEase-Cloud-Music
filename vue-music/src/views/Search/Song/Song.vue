@@ -72,6 +72,8 @@
           (this.pageNo - 1) * this.pageSize,
         );
 
+      console.log(res, this.$route.params.keywords,
+          this.$route.params.type)
         // console.log(this.$route.params.keywords, this.$route.params.type);
         this.songlist = res.data.result.songs;
         this.total = await res.data.result.songCount;

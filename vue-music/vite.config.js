@@ -5,7 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'         //  1 步
 import Components from 'unplugin-vue-components/vite'                      //2步
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'      //3步
 
-
+import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(),
@@ -17,20 +17,68 @@ export default defineConfig({
   }),
 
 
+
+
   ],
-  
-// proxyTable: {
-//   '/api':{
-//     target: 'http://music.cyrilstudio.top/',
-//     changeOrigin: true,
-//     pathRewrite: {
-//       '^/api': ''
-//     }
-//   }
-//   },
+  base: './', // 添加这个属性
+  build: {
+    terserOptions: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          //生产环境时移除console
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+    },
+    rollupOptions: {
+      output: {
+        // chunkFileNames: 'js/[name]-[hash].js',
+        //js分类
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/') : [];
+          const fileName = facadeModuleId[facadeModuleId.length - 2] || '[name]';
+          return `js/${fileName}/[name].[hash].js`;
+        },
+        entryFileNames: 'js/[name]-[hash].js',
+        // assetFileNames: '[ext]/[name]-[hash].[ext]', //第一种
+        // 第二种
+        assetFileNames (chunkInfo) {
+          const fileName = chunkInfo.name;
+          let extPath = "[ext]";
+          if (/\.(png|jpe?g|gif|svg)$/i.test(fileName)) {
+            extPath = "css/"; //把图片路径跟css路径弄一块  extPath = "css/
+          } else if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)$/i.test(fileName)) {
+            extPath = "media";
+          } else if (/\.(woff2?|eot|ttf|otf)$/i.test(fileName)) {
+            extPath = "fonts";
+          }
+          return `static/${extPath}/[name]-[hash][extname]`;
+        },
+
+      },
+    }
+  },
+
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    }
+  },
+
+  // proxyTable: {
+  //   '/api':{
+  //     target: 'http://music.cyrilstudio.top/',
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       '^/api': ''
+  //     }
+  //   }
+  //   },
 
 
-  base:'./', // 添加这个属性
+
   server: {
     cors: true, // 默认启用并允许任何源
     open: true, // 在服务器启动时自动在浏览器中打开应用程序
@@ -48,24 +96,24 @@ export default defineConfig({
 
     },
 
-    
+
 
   },
 
-// location /api {
-//       rewrite ^/api/(.*)$ /$1 break;
-//       proxy_pass http://xxx.com;
-//       }
-//       location /socket.io {
-//       rewrite ^/api/(.*)$ /$1 break;
-//       proxy_pass http://xxx.com;
-//       }
-  
-// location ^~ /api/ {
-// 	proxy_pass http://xx.xx.xx.x1:8090/api/;  # 转发地址
-// }
-		
-// location ^~ /web/ {
-// 	proxy_pass http://xx.xx.xx.x2:8090/web/;  # 转发地址
+  // location /api {
+  //       rewrite ^/api/(.*)$ /$1 break;
+  //       proxy_pass http://xxx.com;
+  //       }
+  //       location /socket.io {
+  //       rewrite ^/api/(.*)$ /$1 break;
+  //       proxy_pass http://xxx.com;
+  //       }
+
+  // location ^~ /api/ {
+  // 	proxy_pass http://xx.xx.xx.x1:8090/api/;  # 转发地址
+  // }
+
+  // location ^~ /web/ {
+  // 	proxy_pass http://xx.xx.xx.x2:8090/web/;  # 转发地址
 
 })

@@ -48,7 +48,7 @@ export default defineConfig({
           const fileName = chunkInfo.name;
           let extPath = "[ext]";
           if (/\.(png|jpe?g|gif|svg)$/i.test(fileName)) {
-            extPath = "css/"; //把图片路径跟css路径弄一块  extPath = "css/
+            extPath = "css"; //把图片路径跟css路径弄一块  extPath = "css/
           } else if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)$/i.test(fileName)) {
             extPath = "media";
           } else if (/\.(woff2?|eot|ttf|otf)$/i.test(fileName)) {

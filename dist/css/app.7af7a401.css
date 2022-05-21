@@ -1,0 +1,223 @@
+.footer ul[data-v-0f44338e] {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 1rem;
+  bottom: 0.1rem;
+}
+.footer ul li[data-v-0f44338e] {
+  display: flex;
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+.login[data-v-5b50bb22] {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: url(../img/login.d6ddc489.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-attachment: fixed;
+  -webkit-background-attachment: fixed;
+}
+.title[data-v-5b50bb22] {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 80%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.list[data-v-5b50bb22],
+.title h3[data-v-5b50bb22] {
+  padding: 0.2rem;
+}
+h3[data-v-5b50bb22] {
+  border-bottom: 2px solid #ddd;
+}
+.list[data-v-5b50bb22] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.list li[data-v-5b50bb22] {
+  display: flex;
+  justify-content: center;
+  width: 2rem;
+  margin: 0.6rem 0;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.1rem;
+  color: #fff;
+}
+.list li[data-v-5b50bb22] :hover {
+  background: violet;
+}
+.text[data-v-5b50bb22] {
+  position: absolute;
+  text-align: center;
+  min-width: 2.5rem;
+  right: 0.2rem;
+  top: 10.5rem;
+  color: #3275f1;
+}
+.t1[data-v-5b50bb22] {
+  font-size: 20px;
+  font-family: 宋体;
+}
+.test[data-v-5b50bb22] {
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: url(../img/2.125173a4.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-attachment: fixed;
+  -webkit-background-attachment: fixed;
+}
+h2[data-v-5b50bb22] {
+  top: 20%;
+}
+.user-text[data-v-5b50bb22],
+h2[data-v-5b50bb22] {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+.user-text[data-v-5b50bb22] {
+  top: 40%;
+}
+.user-text p[data-v-5b50bb22] {
+  text-align: center;
+  min-width: 2.5rem;
+  font-size: 20px;
+  padding-bottom: 0.05rem;
+  color: #3275f1;
+}
+.user-text a[data-v-5b50bb22] {
+  display: inline-block;
+  margin-top: 3.5rem;
+  font-size: 18px;
+  min-width: 2.5rem;
+  text-align: center;
+  background-color: blue;
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+}
+.mainhome[data-v-66f06995] {
+  width: 100%;
+}
+.img[data-v-66f06995] {
+  position: relative;
+  height: 3rem;
+}
+.img li[data-v-66f06995] {
+  width: 100%;
+  height: 3rem;
+  position: absolute;
+}
+.spanlist[data-v-66f06995] {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+}
+span[data-v-66f06995] {
+  display: inline-block;
+  width: 0.2rem;
+  height: 0.2rem;
+  border-radius: 50%;
+  margin: 0 0.05rem;
+  background-color: thistle;
+}
+.active[data-v-66f06995] {
+  background: #1839f3;
+}
+img[data-v-66f06995] {
+  width: 100%;
+  height: 100%;
+}
+.hx[data-v-66f06995] {
+  height: 0.03rem;
+}
+.hx[data-v-66f06995],
+.mainhome-list[data-v-66f06995] {
+  margin: 0.3rem;
+  background-color: thistle;
+}
+.mainhome-list ul[data-v-66f06995] {
+  display: flex;
+  flex-wrap: wrap;
+}
+.mainhome-list ul li[data-v-66f06995] {
+  display: flex;
+  box-sizing: border-box;
+  border-bottom: 1px solid #fff;
+  width: 33.33%;
+  height: 1rem;
+  border-left: 1px solid #fff;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddd;
+}
+.footer-img[data-v-66f06995] {
+  margin: 0.3rem;
+}
+.title[data-v-558426e4] {
+  width: 100%;
+  height: 1rem;
+  background-color: green;
+}
+.title h3[data-v-558426e4] {
+  color: #fff;
+  text-align: center;
+  line-height: 1rem;
+}
+.rm p[data-v-558426e4] {
+  margin: 0.2rem;
+  text-align: center;
+}
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+li,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+img {
+  border: 0;
+}
+html {
+  font-size: 13.33333333vw;
+}
+@media (min-width: 750px) {
+  html {
+    font-size: 100px;
+  }
+}
+body {
+  font-size: 14px;
+  font-family: 微软雅黑, Arial Narrow, Arial, sans-serif;
+  max-width: 750px;
+  margin: 0 auto;
+}
